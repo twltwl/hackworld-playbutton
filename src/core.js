@@ -1,22 +1,31 @@
 //core
-const msg = new SpeechSynthesisUtterance()
+export const msg = new SpeechSynthesisUtterance()
 
-const speak = (text, { lang, voice, volume, rate }) => {
+
+export const speak = (text, config = {}) => {
     msg.text   = text
-    msg.lang   = lang || 'sv-SE'
-    msg.volume = volume || 1
-    msg.rate   = rate || 1
+    msg.lang   = config.lang || 'sv-SE'
+    msg.volume = config.volume || 1
+    msg.rate   = config.rate || 1
     
     speechSynthesis.speak(msg)
 }
 
-const windowHasSpeechSynthesis = () => {
+export const pause = () => {
+    speechSynthesis.pause()
+}
+
+export const windowHasSpeechSynthesis = () => {
     if ('speechSynthesis' in window) {
         return true
     } else {
         return false
     }
-} 
+}
+
+export const isSpeaking = () => (speechSynthesis.pending)
+export const isPaused = () => (speechSynthesis.paused)
+export const hasUtterancesPending = () => (speechSynthesis.pending) 
 
 const queue = {}
 
