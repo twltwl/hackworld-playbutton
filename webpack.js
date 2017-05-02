@@ -1,34 +1,47 @@
-const webpack = require('webpack')
-const path    = require('path')
-const fs      = require('fs')
-
-const rootPath = path.resolve(__dirname)
+var path = require('path');
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: { bundle: path.join(rootPath, 'src', 'ports', 'react.js') },
-  target: 'web',
-  output: {
-    path: path.join(rootPath, 'dist'),
-    filename: '[name].js',
-    libraryTarget: 'umd',
-  },
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
-    }),
-    new webpack.optimize.AggressiveMergingPlugin()
-  ],
-  module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        query: {
-          presets: ['es2015', 'stage-0']
+    devtool: 'cheap-module-eval-source-map',
+    entry: [
+        'webpack-hot-middleware/client',
+        './index'
+    ],
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: 'bundle.js',
+        publicPath: '/static/'
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+          template: './index.html',
+          inject: 'body' // Inject all scripts into the body
+        }),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin()
+    ],
+    module: {
+      loaders: [
+        {
+          test: /\.js$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+          query: {
+            presets: ['es2015', 'stage-0', 'react'],
+            env: {
+              development: {
+                plugins: [['react-transform', {
+                  transforms: [{
+                    transform: 'react-transform-hmr',
+                    imports: ['react'],
+                    locals: ['module']
+                  }]
+                }]]
+              }
+            }
+          }
         }
-      }
-    ]
-  }
+      ]
+    }
 }
