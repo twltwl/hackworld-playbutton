@@ -10,7 +10,7 @@ export default class extends Component {
   }
 
   render() {
-    const { text } = this.props
+    const { text, config } = this.props
     return (
       <div>
         <div>
