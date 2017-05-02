@@ -1,29 +1,28 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { speak, windowHasSpeechSynthesis } from '../core'
 
-export default function Button(text, config = {}) {
-  return class extends Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        windowHasSpeechSynthesis: windowHasSpeechSynthesis()
-      }
+export default class extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      windowHasSpeechSynthesis: windowHasSpeechSynthesis()
     }
+  }
 
-    render() {
-      return (
+  render() {
+    const { text } = this.props
+    return (
+      <div>
         <div>
-          <div>
-            <button 
-              onClick={() => speak(text, config)}
-            >
-              Lyssna
-            </button>
-            {this.state.windowHasSpeechSynthesis && <p>Din webbläsare stödjer inte text till tal</p>}
-          </div>
-          {this.props.children}
+          <button 
+            onClick={() => speak(text, config)}
+          >
+            Lyssna
+          </button>
+          {!this.state.windowHasSpeechSynthesis && <p style={{ color: 'red' }}>Din webbläsare stödjer inte text till tal</p>}
         </div>
-      )
-    }
+        {this.props.children}
+      </div>
+    )
   }
 }
