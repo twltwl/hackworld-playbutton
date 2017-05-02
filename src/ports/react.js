@@ -21,7 +21,6 @@ export default class extends Component {
 
   render() {
     const { speaking, paused, pending } = this.state
-    
     return (
       <div>
         <div>

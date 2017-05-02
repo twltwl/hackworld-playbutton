@@ -2,7 +2,7 @@
   "name": "hackworld-playbutton",
   "version": "1.0.0",
   "description": "Text to speech implementation for news articles",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "node server.js"
   },
