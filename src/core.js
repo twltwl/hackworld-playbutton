@@ -1,7 +1,7 @@
 //core
 const msg = new SpeechSynthesisUtterance()
 
-export const speak = (text, { lang, voice, volume, rate }) => {
+const speak = (text, { lang, voice, volume, rate }) => {
     msg.text   = text
     msg.lang   = lang || 'sv-SE'
     msg.volume = volume || 1
@@ -10,7 +10,7 @@ export const speak = (text, { lang, voice, volume, rate }) => {
     speechSynthesis.speak(msg)
 }
 
-export const windowHasSpeechSynthesis = () => {
+const windowHasSpeechSynthesis = () => {
     if ('speechSynthesis' in window) {
         return true
     } else {
@@ -18,6 +18,18 @@ export const windowHasSpeechSynthesis = () => {
     }
 } 
 
+const queue = {}
 
+const playlist = ({add, identifier, data}) => 
+  add && 
+    (queue[identifier.toString()] = data) 
+    || ( Object.assign(queue, delete queue[identifier.toString()]) )
 
+nextItem = () => {
+  const id = Object.keys(queue)[0]
+  const data = queue[id]
+  Object.assign(queue, delete queue[id])
+  return data
+}
 
+export {speak, windowHasSpeechSynthesis, playlist, nextItem}
