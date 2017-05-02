@@ -27,13 +27,14 @@ export default class extends Component {
   }
 
   render() {
+    const stylez = {margin:'10px', background:'#000', color:'#fff', padding:'5px'}
     const { speaking, paused, pending } = this.state
     return (
       <div>
         <div>
-          {!speaking && <button onClick={() => this.speak()}>Lyssna</button>}
-          {speaking && <button onClick={() => this.pause()}>Pause</button>}
-          <button onClick={() => this.addToPlaylist()}>{this.state.inPlaylist ? 'Ta bort från' : 'Lägg till i'} spellista</button>
+          {!speaking && <button style={stylez} onClick={() => this.speak()}>Lyssna</button>}
+          {speaking && <button style={stylez} onClick={() => this.pause()}>Pause</button>}
+          <button style={stylez} onClick={() => this.addToPlaylist()}>{this.state.inPlaylist ? 'Ta bort från' : 'Lägg till i'} spellista</button>
           {!this.state.windowHasSpeechSynthesis && <p style={{ color: 'red' }}>Din webbläsare stödjer inte text till tal</p>}
         </div>
         {this.props.children}
