@@ -13,9 +13,11 @@ export default class extends Component {
   }
 
   speak() {
-    const { text, config } = this.props
+    const { heading,  text, config } = this.props
 
-    speak(text, config)
+    speak(heading, config)
+      .then(() => new Promise((resolve, reject) => { setTimeout(()=>{ resolve() }, 1500) }))
+      .then(() => new Promise((resolve,reject) => { speak(text, config).then(resolve) }))
       .then(() => this.setState({ speaking: isSpeaking() }))
     
     this.setState({ speaking: isSpeaking() })

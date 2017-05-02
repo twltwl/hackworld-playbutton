@@ -1,7 +1,8 @@
 //core
-export const msg = new SpeechSynthesisUtterance()
+
 
 const speak = (text, config = {}) => {
+    const msg = new SpeechSynthesisUtterance()
     return new Promise((resolve, reject) => {
         msg.text   = text
         msg.lang   = config.lang || 'sv-SE'

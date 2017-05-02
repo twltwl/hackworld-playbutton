@@ -24,7 +24,9 @@ class Article extends Component {
 class Example extends Component {
 
     render() {
-        return <PlayButton text={utils.stripHTML(data.text)} config={{}} ><Article heading={data.heading} text={data.text} /></PlayButton>;
+        return <PlayButton heading={data.heading} text={utils.stripHTML(data.text)} config={{}} >
+          <Article heading={data.heading} text={data.text} />
+        </PlayButton>;
     }
 }
 
