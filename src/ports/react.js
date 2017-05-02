@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { msg, speak, windowHasSpeechSynthesis, isPaused, isSpeaking, hasUtterancesPending, pause } from '../core'
+import { msg, speak, windowHasSpeechSynthesis, isPaused, isSpeaking, hasUtterancesPending, pause, playlist, isInPlaylist, nextItem } from '../core'
 
 export default class extends Component {
   constructor(props) {
@@ -9,6 +9,7 @@ export default class extends Component {
       speaking: isSpeaking(),
       paused: isPaused(),
       pending: hasUtterancesPending(),
+      inPlaylist: isInPlaylist(props.id)
     }
   }
 
@@ -16,11 +17,12 @@ export default class extends Component {
     const { heading,  text, config } = this.props
 
     speak(heading, config)
-      .then(() => new Promise((resolve, reject) => { setTimeout(()=>{ resolve() }, 1500) }))
-      .then(() => new Promise((resolve,reject) => { speak(text, config).then(resolve) }))
-      .then(() => this.setState({ speaking: isSpeaking() }))
-    
     this.setState({ speaking: isSpeaking() })
+  }
+
+  addToPlaylist() {
+    playlist({ add: this.state.inPlaylist ? false : true, identifier: this.props.id, data: { heading: this.props.heading, text: this.props.text }})
+    this.setState({ inPlaylist: isInPlaylist(this.props.id)})
   }
 
   render() {
@@ -30,6 +32,7 @@ export default class extends Component {
         <div>
           {!speaking && <button onClick={() => this.speak()}>Lyssna</button>}
           {speaking && <button onClick={() => this.pause()}>Pause</button>}
+          <button onClick={() => this.addToPlaylist()}>{this.state.inPlaylist ? 'Ta bort från' : 'Lägg till i'} spellista</button>
           {!this.state.windowHasSpeechSynthesis && <p style={{ color: 'red' }}>Din webbläsare stödjer inte text till tal</p>}
         </div>
         {this.props.children}
