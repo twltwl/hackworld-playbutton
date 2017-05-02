@@ -1,10 +1,11 @@
 {
   "name": "hackworld-playbutton",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Text to speech implementation for news articles",
-  "main": "src/index.js",
+  "main": "dist/bundle.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "webpack --config webpack.js"
   },
   "repository": {
     "type": "git",
