@@ -29,10 +29,10 @@ class Example extends Component {
     render() {
         return (
           <div>
-            <PlayButton id={100} heading={data1.heading} text={utils.stripHTML(data1.text)} config={{}} >
+            <PlayButton heading={data1.heading} text={utils.stripHTML(data1.text)} config={{}} >
               <Article heading={data1.heading} text={data1.text} />
             </PlayButton>
-            <PlayButton id={101} heading={data2.heading} text={utils.stripHTML(data2.text)} config={{}} >
+            <PlayButton heading={data2.heading} text={utils.stripHTML(data2.text)} config={{}} >
               <Article heading={data2.heading} text={data2.text} />
             </PlayButton>
           </div>

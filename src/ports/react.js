@@ -4,25 +4,26 @@ import { msg, speak, windowHasSpeechSynthesis, isPaused, isSpeaking, hasUtteranc
 export default class extends Component {
   constructor(props) {
     super(props)
+    this._id = Math.random()
     this.state = {
       windowHasSpeechSynthesis: windowHasSpeechSynthesis(),
       speaking: isSpeaking(),
       paused: isPaused(),
       pending: hasUtterancesPending(),
-      inPlaylist: isInPlaylist(props.id)
+      inPlaylist: isInPlaylist(this._id)
     }
   }
 
   speak() {
     const { heading,  text, config } = this.props
 
-    speak(heading, config)
+    speak(heading, text, config)
     this.setState({ speaking: isSpeaking() })
   }
 
   addToPlaylist() {
-    playlist({ add: this.state.inPlaylist ? false : true, identifier: this.props.id, data: { heading: this.props.heading, text: this.props.text }})
-    this.setState({ inPlaylist: isInPlaylist(this.props.id)})
+    playlist({ add: this.state.inPlaylist ? false : true, identifier: this._id, data: { heading: this.props.heading, text: this.props.text }})
+    this.setState({ inPlaylist: isInPlaylist(this._id)})
   }
 
   render() {

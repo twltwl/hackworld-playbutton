@@ -1,18 +1,22 @@
 //core
-const msg = new SpeechSynthesisUtterance()
+
 const speak = (header, text, config = {}) => {
-    
+    console.log('speak', header, text)
     s(header, config)
         .then(() => new Promise((resolve, reject) => { setTimeout(()=>{ resolve() }, 1500) }))
         .then(() => new Promise((resolve, reject) => { s(text, config).then(resolve) }))
         .then(() => {
             var data = nextItem()
-            console.log(data)
-            speak(data.header, data.text, config)
+            if(data){
+                setTimeout(()=>{ speak(data.heading, data.text, config) }, 2000)
+                
+            }
+            
         })
 }
 
 const s = (text, config) => {
+    const msg = new SpeechSynthesisUtterance()
     return new Promise((resolve, reject) => {
         msg.text   = text
         msg.lang   = config.lang    || 'sv-SE'
@@ -20,10 +24,12 @@ const s = (text, config) => {
         msg.rate   = config.rate    || 1
         
         speechSynthesis.cancel()
+        console.log('speaking', text)
         speechSynthesis.speak(msg)
         
         //onend resolve..
         msg.onend = event => {
+            console.log('event ended')
             resolve('end')
         }
     })
@@ -48,12 +54,14 @@ export const hasUtterancesPending = () => (speechSynthesis.pending)
 const queue = {}
 
 const playlist = ({add, identifier, data}) => {
-    console.log(queue)
+    
     if (add) {
         queue[identifier.toString()] = data 
     } else {
         Object.assign(queue, delete queue[identifier.toString()])
     }
+
+    console.log(queue)
 }
 
 const isInPlaylist = identifier => {
