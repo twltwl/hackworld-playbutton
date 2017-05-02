@@ -1,21 +1,27 @@
 //core
 export const msg = new SpeechSynthesisUtterance()
 
-
-export const speak = (text, config = {}) => {
-    msg.text   = text
-    msg.lang   = config.lang || 'sv-SE'
-    msg.volume = config.volume || 1
-    msg.rate   = config.rate || 1
-    
-    speechSynthesis.speak(msg)
+const speak = (text, config = {}) => {
+    return new Promise((resolve, reject) => {
+        msg.text   = text
+        msg.lang   = config.lang || 'sv-SE'
+        msg.volume = config.volume || 1
+        msg.rate   = config.rate || 1
+        
+        speechSynthesis.speak(msg)
+        
+        //onend resolve..
+        msg.onend = event => {
+            resolve('end')
+        }
+    })
 }
 
 export const pause = () => {
     speechSynthesis.pause()
 }
 
-export const windowHasSpeechSynthesis = () => {
+const windowHasSpeechSynthesis = () => {
     if ('speechSynthesis' in window) {
         return true
     } else {
@@ -23,7 +29,7 @@ export const windowHasSpeechSynthesis = () => {
     }
 }
 
-export const isSpeaking = () => (speechSynthesis.pending)
+export const isSpeaking = () => (speechSynthesis.speaking)
 export const isPaused = () => (speechSynthesis.paused)
 export const hasUtterancesPending = () => (speechSynthesis.pending) 
 

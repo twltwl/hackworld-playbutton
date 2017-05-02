@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { speak, windowHasSpeechSynthesis, isPaused, isSpeaking, hasUtterancesPending } from '../core'
+import { msg, speak, windowHasSpeechSynthesis, isPaused, isSpeaking, hasUtterancesPending, pause } from '../core'
 
 export default class extends Component {
   constructor(props) {
@@ -15,8 +15,10 @@ export default class extends Component {
   speak() {
     const { text, config } = this.props
 
-    this.setState({ speaking: isSpeaking })
     speak(text, config)
+      .then(() => this.setState({ speaking: isSpeaking() }))
+    
+    this.setState({ speaking: isSpeaking() })
   }
 
   render() {
@@ -25,7 +27,7 @@ export default class extends Component {
       <div>
         <div>
           {!speaking && <button onClick={() => this.speak()}>Lyssna</button>}
-          {speaking && <button onClick={() => pause()}>Pause</button>}
+          {speaking && <button onClick={() => this.pause()}>Pause</button>}
           {!this.state.windowHasSpeechSynthesis && <p style={{ color: 'red' }}>Din webbläsare stödjer inte text till tal</p>}
         </div>
         {this.props.children}
