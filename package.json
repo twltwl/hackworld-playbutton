@@ -1,11 +1,11 @@
 {
   "name": "hackworld-playbutton",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Text to speech implementation for news articles",
-  "main": "dist/bundle.js",
+  "main": "lib/index.js",
   "scripts": {
     "start": "node server.js",
-    "build": "webpack --config webpack.js"
+    "build": "babel ./src --stage 0 --presets=es2015,react -d ./lib"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/twltwl/hackworld-playbutton#readme",
   "devDependencies": {
-    "babel-cli": "^6.11.4",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
     "babel-plugin-react-transform": "^2.0.2",
     "html-webpack-plugin": "^2.28.0",
     "react-transform-hmr": "^1.0.2",

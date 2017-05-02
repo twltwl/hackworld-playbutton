@@ -1,2 +1,4 @@
-export PlayButton from './ports/react'
-export * as utils from './utils'
+import {PlayButton} from './ports/react'
+import * as utils from './utils'
+
+export {PlayButton, utils}
