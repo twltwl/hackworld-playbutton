@@ -25,7 +25,7 @@ const playlist = ({add, identifier, data}) =>
     (queue[identifier.toString()] = data) 
     || ( Object.assign(queue, delete queue[identifier.toString()]) )
 
-nextItem = () => {
+const nextItem = () => {
   const id = Object.keys(queue)[0]
   const data = queue[id]
   Object.assign(queue, delete queue[id])
