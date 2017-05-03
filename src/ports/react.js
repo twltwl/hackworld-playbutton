@@ -32,8 +32,7 @@ export default class extends Component {
     return (
       <div>
         <div>
-          {!speaking && <button style={stylez} onClick={() => this.speak()}>Lyssna</button>}
-          {speaking && <button style={stylez} onClick={() => this.pause()}>Pause</button>}
+          <button style={stylez} onClick={() => this.speak()}>Lyssna</button>
           <button style={stylez} onClick={() => this.addToPlaylist()}>{this.state.inPlaylist ? 'Ta bort från' : 'Lägg till i'} spellista</button>
           {!this.state.windowHasSpeechSynthesis && <p style={{ color: 'red' }}>Din webbläsare stödjer inte text till tal</p>}
         </div>
